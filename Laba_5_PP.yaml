@@ -1,0 +1,329 @@
+---
+openapi: 3.0.0
+info:
+  title: This is a Swagger for Audience Reservation
+  description: In this swagger you can reserve an audience for a specific date, time and time range from 1 hour to 5 days.
+  contact:
+    name: AudiencePedia
+    url: http://audiencepedia.com
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/Maksym637/Laba_5/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://devapi.com
+- url: http://audience_reservatio.com
+tags:
+- name: Audience for Reservation
+  description: Everything about how to reservate a certain audience
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+paths:
+  /audiences:
+    description: Audience resource
+    get:
+      description: Operation to fetch audiences
+      parameters:
+      - name: numberaudience
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 22
+      responses:
+        "200":
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audience_1'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: Error page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    post:
+      description: Add a new Audience
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/audience_2'
+      responses:
+        "201":
+          description: Successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audiences'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  /audiences{number_of_audience}:
+    description: get
+    get:
+      description: Show certain reservation
+      parameters:
+      - name: number_of_audience
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audiences'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: Error page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+  /audiences/{number_of_audience}/{day_of_reservation}/{time_of_reservation}/{time}:
+    description: put, post and delete
+    put:
+      description: Update audience
+      parameters:
+      - name: number_of_audience
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: day_of_reservation
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: time_of_reservation
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: time
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/audience_1'
+      responses:
+        "201":
+          description: Successfully updated
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+    post:
+      description: Add an audience
+      parameters:
+      - name: number_of_audience
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: day_of_reservation
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: time_of_reservation
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: time
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "201":
+          description: Successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audiences'
+        "400":
+          description: Bad request for two same schema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  /audience_1{number_of_audience}:
+    description: delete
+    delete:
+      description: Delete reservation
+      parameters:
+      - name: number_of_audience
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "201":
+          description: Successfully deleted
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  /user{number_of_reservation}:
+    description: delete
+    delete:
+      description: Cancel user's reservation
+      parameters:
+      - name: number_of_reservation
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "201":
+          description: Successfully canceled
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+components:
+  schemas:
+    audience_1:
+      type: object
+      properties:
+        Number_of_Audience:
+          type: integer
+          example: 12
+        Day_of_Reservation:
+          type: string
+          example: 20.10.2021
+        Time_of_Reservation:
+          type: string
+          example: "13.0"
+        Time:
+          type: integer
+          example: 1
+    audience_2:
+      type: object
+      properties:
+        Number_of_Audience:
+          type: integer
+          example: 30
+        Day_of_Reservation:
+          type: string
+          example: 18.10.2021
+        Time_of_Reservation:
+          type: string
+          example: "16.0"
+        Time:
+          type: integer
+          example: 4
+    audience_3:
+      type: object
+      properties:
+        Number_of_Audience:
+          type: integer
+          example: 5
+        Day_of_Reservation:
+          type: string
+          example: 21.12.2021
+        Time_of_Reservation:
+          type: string
+          example: "10.0"
+        Time:
+          type: integer
+          example: 2
+    audiences:
+      type: array
+      items:
+        $ref: '#/components/schemas/audiences_inner'
+    user:
+      type: object
+      properties:
+        Number_of_Reservation:
+          type: integer
+          example: 10
+        Name_of_User:
+          type: string
+          example: Maksym
+    inline_response_400:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Invalid request
+    inline_response_404:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: Fetch error
+    audiences_inner:
+      properties:
+        Number_of_Audience:
+          type: integer
+          example: 12
+        Day_of_Reservation:
+          type: string
+          example: 20.10.2021
+        Time_of_Reservation:
+          type: string
+          example: "13.0"
+        Time:
+          type: integer
+          example: 1
