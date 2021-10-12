@@ -1,0 +1,349 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: This is a Swagger for Audience Reservation
+  description: In this swagger you can reserve an audience for a specific date, time and time range from 1 hour to 5 days.
+  contact:
+     name: AudiencePedia
+     url: http://audiencepedia.com
+servers:
+   # Added by API Auto Mocking Plugin
+   - description: SwaggerHub API Auto Mocking
+     url: https://virtserver.swaggerhub.com/Maksym637/Laba_5/1.0.0
+   - url: http://devapi.com
+   - url: http://audience_reservatio.com
+tags:
+  - name: Audience for Reservation
+    description: Everything about how to reservate a certain audience
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /audiences:
+    description: Audience resource
+    get: # Show all data
+     description: Operation to fetch audiences
+     parameters:
+        - in: query
+          name: numberaudience
+          required: false
+          schema:
+             type: integer
+             example: 22
+     responses:
+      '200':
+        description: Success response
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/audience_1'
+      '400':
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: integer
+                  example: 400
+                message:
+                  type: string
+                  example: Invalid request
+      '404':
+        description: Error page
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: integer
+                  example: 404
+                message:
+                  type: string
+                  example: Fetch error
+    post: # Create data
+      description: Add a new Audience
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/audience_2'
+      responses:
+        '201':
+           description: Successfully added
+           content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/audiences'
+        '400':
+           description: Bad request
+           content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request
+  /audiences{number_of_audience}:
+    description: get
+    get: # Show all data
+     description: Show certain reservation
+     parameters:
+        - in: path
+          name: number_of_audience
+          required: true
+          schema:
+           type: integer
+     responses:
+       '200':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/audiences'
+       '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request
+       '404':
+          description: Error page
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Fetch error
+  /audiences/{number_of_audience}/{day_of_reservation}/{time_of_reservation}/{time}:
+    description: put, post and delete
+    post: # Create data
+       description: Add an audience
+       parameters:
+         - in: path
+           name: number_of_audience
+           required: true
+           schema:
+             type: integer
+         - in: path
+           name: day_of_reservation
+           required: true
+           schema:
+             type: string
+         - in: path
+           name: time_of_reservation
+           required: true
+           schema:
+             type: string
+         - in: path
+           name: time
+           required: true
+           schema:
+             type: integer
+       responses:
+        '201':
+           description: Successfully added
+           content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/audiences'
+        # These two error responses have the same schema
+        '400':
+           description: Bad request for two same schema
+           content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request
+    put: # Update data
+     description: Update audience
+     parameters:
+        - in: path
+          name: number_of_audience
+          required: true
+          schema:
+           type: integer
+        - in: path
+          name: day_of_reservation
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: time_of_reservation
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: time
+          required: true
+          schema:
+            type: integer
+     requestBody:
+       content:
+         application/json:
+          schema:
+                $ref: '#/components/schemas/audience_1'
+     responses:
+        '201':
+           description: Successfully updated
+        '400':
+           description: Bad request
+           content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request
+  /audience_1{number_of_audience}:
+     description: delete
+     delete: # Delete data
+      description: Delete reservation
+      parameters:
+       - in: path
+         name: number_of_audience
+         required: true
+         schema:
+           type: integer
+      responses:
+         '201':
+           description: Successfully deleted
+         '400':
+           description: Bad request
+           content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request
+  /user{number_of_reservation}:
+     description: delete
+     delete: # Cancel reservation
+      description: Cancel user's reservation
+      parameters:
+       - in: path
+         name: number_of_reservation
+         required: true
+         schema:
+           type: integer
+      responses:
+         '201':
+           description: Successfully canceled
+         '400':
+           description: Bad request
+           content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request
+components:
+  schemas:
+    audience_1:
+      type: object
+      properties:
+        Number_of_Audience:
+           type: integer
+           example: 12
+        Day_of_Reservation:
+           type: string
+           example: 20.10.2021
+        Time_of_Reservation:
+           type: string
+           example: 13.00
+        Time:
+           type: integer
+           example: 1
+    audience_2:
+      type: object
+      properties:
+        Number_of_Audience:
+           type: integer
+           example: 30
+        Day_of_Reservation:
+           type: string
+           example: 18.10.2021
+        Time_of_Reservation:
+           type: string
+           example: 16.00
+        Time:
+           type: integer
+           example: 4
+    audience_3:
+      type: object
+      properties:
+        Number_of_Audience:
+           type: integer
+           example: 5
+        Day_of_Reservation:
+           type: string
+           example: 21.12.2021
+        Time_of_Reservation:
+           type: string
+           example: 10.00
+        Time:
+           type: integer
+           example: 2
+    audiences:
+       type: array
+       items:
+         properties:
+           Number_of_Audience:
+             type: integer
+             example: 12
+           Day_of_Reservation:
+             type: string
+             example: 20.10.2021
+           Time_of_Reservation:
+             type: string
+             example: 13.00
+           Time:
+             type: integer
+             example: 1
+    user:
+      type: object
+      properties:
+        Number_of_Reservation:
+           type: integer
+           example: 10
+        Name_of_User:
+           type: string
+           example: Maksym
