@@ -4,4 +4,4 @@ app = Flask(__name__)
 # Hello Program!
 @app.route("/api/v1/hello-world-7")
 def hello_world():
-    return "Hello World Bitch 7"
+    return "Hello World 7"
