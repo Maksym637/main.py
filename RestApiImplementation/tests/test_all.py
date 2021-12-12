@@ -80,6 +80,24 @@ def test_get_user(db_user):
     assert response.status_code == 200
 
 
+# check_json_for_USER
+def test_get_user_json():
+    url = '/user/user2'
+    headers = {"Authorization": f"Basic dXNlcjI6cGFzMg=="}
+    response = client.get(url, headers=headers)
+    password_hash = User.query.filter_by(id=1).first().password
+    assert json.loads(response.data) == {
+        "id": 1,
+        "username": "user2",
+        "first_name": "AAA1",
+        "last_name": "BBB2",
+        "email": None,
+        "password": password_hash,
+        "phone": None,
+        "user_status": False
+    }
+
+
 def test_get_user_error_1(db_user):
     url = '/user/user10'
     headers = {"Authorization": f"Basic dXNlcjE6cGFzMQ=="}
@@ -289,6 +307,5 @@ def test_get_access():
     headers = {"Authorization": f"Basic dXNlcjI6cGFzMg=="}
     response = client.delete(url_delete, headers=headers)
     assert response.status_code == 200
-
 
 # TOKENS user2 : dXNlcjI6cGFzMg==    |     user3 : dXNlcjM6cGFzMw==

@@ -1,7 +1,6 @@
 from flask_httpauth import HTTPBasicAuth
 from marshmallow import ValidationError
 from sqlalchemy import and_
-
 from RestApiImplementation.models_api import Access, User, Auditorium
 from RestApiImplementation.schemas import AccessSchema, CreateAccessSchema
 from flask import request, jsonify, Response, Blueprint
